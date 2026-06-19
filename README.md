@@ -6,17 +6,17 @@ This repository contains an initial Python prototype for execution-plan-driven d
 
 The current implementation is intentionally small and testable. It is not a production system; it is a portfolio prototype focused on data infrastructure patterns that can support reliable AI, analytics, and downstream automation workflows.
 
-## Problem
-
-Data standardization workflows often start with inconsistent source files. CSV exports, manual uploads, and system-generated reports may differ in column names, required fields, structure, and data quality.
-
-Without a clear schema model and validation process, downstream systems can receive incomplete or ambiguous data. This creates risk for analytics, machine learning, reporting, and AI-assisted workflows that depend on trustworthy structured inputs.
-
 ## Technical Write-Up
 
 For the design thinking behind this prototype, see:
 
 [Execution-Plan-Driven Data Standardization for Reliable AI and Analytics Workflows](./ARTICLE.md)
+
+## Problem
+
+Data standardization workflows often start with inconsistent source files. CSV exports, manual uploads, and system-generated reports may differ in column names, required fields, structure, and data quality.
+
+Without a clear schema model and validation process, downstream systems can receive incomplete or ambiguous data. This creates risk for analytics, machine learning, reporting, and AI-assisted workflows that depend on trustworthy structured inputs.
 
 ## Current Prototype
 
