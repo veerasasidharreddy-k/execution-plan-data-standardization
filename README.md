@@ -12,6 +12,12 @@ Data standardization workflows often start with inconsistent source files. CSV e
 
 Without a clear schema model and validation process, downstream systems can receive incomplete or ambiguous data. This creates risk for analytics, machine learning, reporting, and AI-assisted workflows that depend on trustworthy structured inputs.
 
+## Technical Write-Up
+
+For the design thinking behind this prototype, see:
+
+[Execution-Plan-Driven Data Standardization for Reliable AI and Analytics Workflows](./ARTICLE.md)
+
 ## Current Prototype
 
 The prototype currently includes:
