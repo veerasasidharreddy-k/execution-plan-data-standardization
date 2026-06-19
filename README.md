@@ -1,88 +1,102 @@
 # Execution-Plan-Driven Data Standardization
 
-This repository explores a structured approach to converting raw business files into canonical data formats using deterministic profiling, schema detection, column mapping, validation, and execution plans.
+## Overview
+
+This repository contains an initial Python prototype for execution-plan-driven data standardization. It demonstrates how raw source files can be profiled, compared against a canonical schema, validated through a mapping layer, and surfaced as structured quality-control issues.
+
+The current implementation is intentionally small and testable. It is not a production system; it is a portfolio prototype focused on data infrastructure patterns that can support reliable AI, analytics, and downstream automation workflows.
 
 ## Problem
 
-Enterprise data workflows often receive inconsistent CSV or Excel files from different clients, teams, source systems, or manual exports. These files may vary in column names, structure, formatting, data quality, and business meaning.
+Data standardization workflows often start with inconsistent source files. CSV exports, manual uploads, and system-generated reports may differ in column names, required fields, structure, and data quality.
 
-Manual cleanup is slow, error-prone, difficult to audit, and hard to scale across many clients or projects.
+Without a clear schema model and validation process, downstream systems can receive incomplete or ambiguous data. This creates risk for analytics, machine learning, reporting, and AI-assisted workflows that depend on trustworthy structured inputs.
 
-## Approach
+## Current Prototype
 
-The system is designed around an execution-plan model.
+The prototype currently includes:
 
-Instead of directly transforming a file in one step, the workflow first creates a structured plan that describes how the source file should be interpreted, validated, mapped, and converted.
+- Canonical schema models for required and optional target fields.
+- Execution plan models for representing workflow steps.
+- CSV profiling using Python's standard `csv` library.
+- Mapping validation for required canonical fields.
+- QC issue generation for missing required mappings.
+- A small runnable demo in `src/main.py`.
+- Pytest coverage for execution plan creation and required-field validation.
 
-## High-Level Workflow
+The sample execution plan includes these steps:
 
-1. Profile the source file
-2. Detect schema and structure
-3. Map source columns to canonical fields
-4. Generate a target row model
-5. Run validation and quality checks
-6. Produce preview outputs
-7. Write artifacts for review and traceability
+- `profile_source`
+- `detect_schema`
+- `validate_mapping`
+- `generate_preview`
 
-## Core Concepts
+## Folder Structure
 
-### Source Profiling
+```text
+src/
+  __init__.py
+  main.py
+  models/
+    __init__.py
+    canonical_schema.py
+    execution_plan.py
+    qc_issue.py
+  profiling/
+    __init__.py
+    csv_profiler.py
+  validation/
+    __init__.py
+    validator.py
+tests/
+  test_execution_plan.py
+requirements.txt
+```
 
-Analyze the incoming file to understand its structure, column names, sample values, missing fields, data types, and potential quality issues.
+## How to Run
 
-### Schema Detection
+Create a virtual environment:
 
-Identify how the source file aligns with expected canonical structures.
+```bash
+python -m venv .venv
+```
 
-### Column Mapping
+Install dependencies:
 
-Map source columns to target canonical fields using deterministic rules and validation logic.
+```bash
+pip install -r requirements.txt
+```
 
-### Execution Plan
+Run the sample prototype:
 
-Generate a structured plan that defines the steps required to transform the source file safely and repeatably.
+```bash
+python -m src.main
+```
 
-### QC Validation
+The demo builds a sample canonical schema, creates a sample mapping with one missing required field, builds an execution plan, and prints the generated QC issue.
 
-Capture validation issues such as missing required fields, invalid data types, unmapped columns, duplicate fields, and inconsistent values.
+## Tests
 
-### Preview Generation
+Run the test suite:
 
-Produce preview outputs before final processing so users or downstream systems can review the transformation result.
+```bash
+pytest
+```
 
-## Why This Matters
+The current tests verify:
 
-Reliable AI and analytics systems depend on clean, structured, validated data.
+- Execution plan step creation.
+- QC issue generation when a required canonical field is missing from the mapping.
 
-Before an LLM, analytics dashboard, or machine learning workflow can reason over business data, the underlying data needs to be standardized and trustworthy.
+## Future Extensions
 
-This project focuses on the infrastructure layer required before higher-level AI workflows, LLM-assisted mapping, automated data reasoning, or analytics pipelines can operate reliably.
+Potential next steps include:
 
-## Planned Components
-
-* Python-based file profiling
-* CSV and XLSX parsing
-* Canonical schema definitions
-* Column mapping model
-* Execution plan model
-* QC issue generation
-* Preview artifact writer
-* Local storage support
-* Cloud storage abstraction
-* Unit-testable transformation pipeline
-
-## Possible Future Extensions
-
-* LLM-assisted column mapping suggestions
-* Human-in-the-loop approval workflow
-* Confidence scoring for mappings
-* Schema drift detection
-* Data quality dashboards
-* Integration with object storage and queue-based processing
-* Evaluation framework for mapping accuracy
-
-## Status
-
-Initial portfolio prototype.
-
-This repository is intended to demonstrate system design, data workflow modeling, validation-first engineering, and reliable AI-adjacent data infrastructure patterns.
+- Add richer CSV profiling for null counts, inferred data types, and distinct values.
+- Add preview generation for standardized output rows.
+- Expand mapping validation for duplicate mappings, unknown target fields, and type mismatches.
+- Introduce schema drift detection across repeated source files.
+- Add deterministic mapping suggestions before introducing any LLM-assisted workflow.
+- Support additional file formats such as Excel.
+- Persist execution plans and QC results as reviewable artifacts.
+- Add human-in-the-loop approval for mappings and validation exceptions.
